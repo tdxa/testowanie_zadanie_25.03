@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Warehouse implements Observable{
+public class Warehouse extends Observable {
 
     private  List<Producer> producers = new ArrayList<>();
     private  List<Consumer> consumers = new ArrayList<>();
@@ -12,35 +13,12 @@ public class Warehouse implements Observable{
         this.sizeStorage = sizeStorage;
     }
 
-    @Override
-    public void add(Observer observer) {
-        if(observer instanceof Producer){
-            producers.add((Producer) observer);
-        }else if(observer instanceof Consumer){
-            consumers.add((Consumer)observer);
-        }
-    }
-
     public void addElement(int element){
         elements.add(element);
     }
 
     public int removeElement(){
         return elements.remove(0);
-    }
-
-    @Override
-    public void notifyProducer(){
-        for (Producer producer : producers){
-            producer.update(this);
-        }
-    }
-
-    @Override
-    public void notifyConsumer(){
-        for(Consumer consumer : consumers){
-            consumer.update(this);
-        }
     }
 
     public boolean isFreeStorageSpace(){

@@ -5,22 +5,18 @@ public class Main {
 
         Warehouse warehouse = new Warehouse(10);
 
-        Producer producer = new Producer("--prod01--");
-        warehouse.add(producer);
-        Producer producer1 = new Producer("--prod02--");
-        warehouse.add(producer1);
+        Producer producer = new Producer("--prod01--", warehouse);
+        warehouse.addObserver(producer);
 
-        Consumer consumer = new Consumer("~~cons01~~");
-        warehouse.add(consumer);
-        Consumer consumer1 = new Consumer("~~cons02~~");
-        warehouse.add(consumer1);
+        Consumer consumer = new Consumer("~~cons01~~", warehouse);
+        warehouse.addObserver(consumer);
 
         while(true){
             if(warehouse.isFreeStorageSpace()){
-                warehouse.notifyProducer();
+                producer.update(warehouse,producer);
             }
             if(warehouse.isAvailableElement()){
-                warehouse.notifyConsumer();
+                consumer.update(warehouse,consumer);
             }
             try {
                 sleep(100);
